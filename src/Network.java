@@ -64,7 +64,7 @@ public class Network {
 
                 System.out.println("Current WW Ver: "+ Curr_Ver());
 
-                if (Master_Ver == Curr_Ver()) {
+                if (Master_Ver.contains(Curr_Ver())) {
                     if (!IPs.contains(socket.getInetAddress().toString())) {
                         IPs.add(socket.getInetAddress().toString());
                         System.out.println("MASTER VALIDATED: "+ socket.getInetAddress());
