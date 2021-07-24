@@ -54,7 +54,7 @@ public class Network {
                 ServerSocket ss = new ServerSocket(10000);
                 System.out.println("Waiting for Connection from a server");
                 Socket socket = ss.accept();
-                System.out.println("GOT connection from Master server: "+ socket.getInetAddress());
+                System.out.println("GOT connection from IP: "+ socket.getInetAddress());
 
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -65,10 +65,12 @@ public class Network {
                 if (Master_Ver.matches(Curr_Ver().toUpperCase())) {
                     if (!IPs.contains(socket.getInetAddress().toString())) {
                         IPs.add(socket.getInetAddress().toString());
+                        System.out.println("MASTER VALIDATED: "+ socket.getInetAddress());
                     }
                     for (String IP : IPs) {
                         if (!IP.matches(socket.getInetAddress().toString())) {
                             Temp_List.add(IP);
+                            System.out.println("Added Master to temp list: "+ IP);
                         }
                     }
                     oos.write(1);
