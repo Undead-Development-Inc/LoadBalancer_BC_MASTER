@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class Network {
 
@@ -111,12 +112,21 @@ public class Network {
     }
 
     public static void Status(){
-        while(true) {
-            System.out.println("Current IP's: ");
-            for (String IP : IPs) {
-                System.out.println(IP);
+        try {
+            while (true) {
+                if(!IPs.isEmpty()) {
+                    System.out.println("Current IP's: ");
+                }
+                TimeUnit.SECONDS.sleep(30);
+                if (!IPs.isEmpty()) {
+                    for (String IP : IPs) {
+                        System.out.println(IP);
+                    }
+                }
+                System.console().flush();
             }
-            System.console().flush();
+        }catch (Exception ex){
+            System.out.println(ex);
         }
     }
 }
