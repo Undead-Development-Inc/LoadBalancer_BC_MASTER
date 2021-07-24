@@ -109,4 +109,14 @@ public class Network {
         }
         return "";
     }
+
+    public static void Status(){
+        while(true) {
+            System.out.println("Current IP's: ");
+            for (String IP : IPs) {
+                System.out.println(IP);
+            }
+            System.console().flush();
+        }
+    }
 }
