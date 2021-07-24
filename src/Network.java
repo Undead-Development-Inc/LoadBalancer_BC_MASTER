@@ -63,6 +63,8 @@ public class Network {
                 ArrayList<String> Temp_List = new ArrayList<>();
 
                 System.out.println("Current WW Ver: "+ Curr_Ver());
+                System.out.println("Current Requested Server Ver: "+ Master_Ver);
+                System.out.println("MATCHES: "+ Curr_Ver().matches(Master_Ver));
 
                 if (Master_Ver.equals(Curr_Ver())) {
                     System.out.println("Adding Master");
