@@ -62,6 +62,8 @@ public class Network {
                 String Master_Ver = (String) ois.readObject();
                 ArrayList<String> Temp_List = new ArrayList<>();
 
+                System.out.println("Current WW Ver: "+ Curr_Ver());
+
                 if (Master_Ver.matches(Curr_Ver())) {
                     if (!IPs.contains(socket.getInetAddress().toString())) {
                         IPs.add(socket.getInetAddress().toString());
@@ -96,6 +98,7 @@ public class Network {
     }
 
     public static String Curr_Ver(){
+        String Ver = "";
         try{
             URL url = new URL("http://qcnetworks.ca/master/verr.php");
 
@@ -105,12 +108,12 @@ public class Network {
 
             while ((line = in.readLine()) !=  null){
                 System.out.println("Current Server Ver is: "+ line);
-                return line;
+                Ver += line;
             }
         }catch (Exception exception){
             System.out.println(exception);
         }
-        return "";
+        return Ver;
     }
 
     public static void Status(){
