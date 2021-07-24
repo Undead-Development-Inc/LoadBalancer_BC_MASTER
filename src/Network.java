@@ -59,10 +59,10 @@ public class Network {
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-                String Master_Ver = (String) ois.readLine();
+                String Master_Ver = (String) ois.readObject();
                 ArrayList<String> Temp_List = new ArrayList<>();
 
-                if (Master_Ver.matches(Curr_Ver().toUpperCase())) {
+                if (Master_Ver.matches(Curr_Ver())) {
                     if (!IPs.contains(socket.getInetAddress().toString())) {
                         IPs.add(socket.getInetAddress().toString());
                         System.out.println("MASTER VALIDATED: "+ socket.getInetAddress());
