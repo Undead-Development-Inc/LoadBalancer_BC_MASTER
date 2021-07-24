@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="BC_LOADBALANCER_MASTERSTOR:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BC_LOADBALANCER_MASTERSTOR_jar</output-path>
+    <root id="archive" name="BC_LOADBALANCER_MASTERSTOR.jar">
+      <element id="module-output" name="BC_LOADBALANCER_MASTERSTOR" />
+    </root>
+  </artifact>
+</component>
