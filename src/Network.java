@@ -1,3 +1,5 @@
+import com.mysql.cj.x.protobuf.MysqlxExpr;
+
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ public class Network {
 
     public static ArrayList<String> IPs = new ArrayList<>();
 
-
+    //THIS IS MASTER CHECKING VERS OFTHERES
     public static void Network_Check() {
         while (true) {
             String Curr_IP = "";
@@ -47,8 +49,34 @@ public class Network {
             }
         }
     }
+    //THIS IS FOR MASTER PING SERVER
+    public static void Network_Connect(){
+        ArrayList<String> current = new ArrayList<>(1);
+        while(true){
+            try{
+                for(String mIP: IPs){
+                    current.add(mIP);
+                    System.out.println("Connecting to " + mIP);
+                    Socket socket = new Socket(mIP, 10000);
+                    current.remove(1);
 
-    public static void Network_GET() {
+                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+
+                    oos.writeObject(FreeDomCrypto.Ver);
+
+                    oos.close();
+                    ois.close();
+                    socket.close();
+                }
+            }catch (Exception ex){
+                IPs.remove(current.get(1));
+                System.out.println("Removing: "+ current.get(1));
+                current.remove(1);
+            }
+        }
+    }
+    public static void Network_GET() {  ///THIS IS THE MASTER PING SERVER
         while (true) {
             try {
                 ServerSocket ss = new ServerSocket(10000);
@@ -67,10 +95,12 @@ public class Network {
                 System.out.println("MATCHES: "+ Curr_Ver().matches(Master_Ver));
 
                 if (Master_Ver.equals(Curr_Ver())) {
-                    System.out.println("Adding Master");
+                    System.out.println("VER MATCHED - CHECKING IF MASTER IN LIST");
                     if (!IPs.contains(socket.getInetAddress().toString())) {
                         IPs.add(socket.getInetAddress().toString());
                         System.out.println("MASTER VALIDATED: "+ socket.getInetAddress());
+                    }else {
+                        System.out.println("Master Not Added -- Already IN LIST");
                     }
                     for (String IP : IPs) {
                         if (!IP.matches(socket.getInetAddress().toString())) {
@@ -99,7 +129,45 @@ public class Network {
             }
         }
     }
+    public static void GETIPs(){ //THIS WELL BE FOR CONNECTING TO DNS IP HANDOUT VIA ENCRYPTED MESSAGE
+        while(true){
+            try{
+                Socket socket = new Socket("cdn1.qcnetworks.ca", 20);
 
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+
+                oos.writeObject(FreeDomCrypto.Ver);
+
+                Object result = (Object) ois.readObject();
+
+                if(result instanceof ArrayList){
+                    ArrayList<String> DNSIPs = (ArrayList<String>) result;
+                    for (String Master: DNSIPs){
+                        if(!IPs.contains(Master)){
+                            IPs.add(Master);
+                            System.out.println("Added Master IP: "+ Master);
+                        }
+                    }
+                    oos.close();
+                    ois.close();
+                    socket.close();
+                }
+
+                if(result instanceof Boolean){
+                    oos.close();
+                    ois.close();
+                    socket.close();
+                    System.out.println("No Data Recived");
+                }
+
+            }catch (Exception ex){
+
+            }
+        }
+    }
+
+    //THIS IS THE CURRENT (WWW NETWORK VER) ACTIVLY REPORTED
     public static String Curr_Ver(){
         String Ver = "";
         try{
