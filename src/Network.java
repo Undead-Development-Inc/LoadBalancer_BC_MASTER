@@ -87,6 +87,9 @@ public class Network {
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
+                if(socket.isConnected()){
+
+
                 String Master_Ver = (String) ois.readObject();
                 ArrayList<String> Temp_List = new ArrayList<>();
 
@@ -109,6 +112,7 @@ public class Network {
                         }
                     }
                     oos.write(1);
+                    }
                     if(Temp_List.isEmpty()){
                         oos.writeObject(true);
                     }else {

@@ -9,6 +9,8 @@ public class main {
         Thread Network_Check = new Thread(Network::Network_Check);
         Thread Network_GET = new Thread(Network::Network_GET);
         Thread Net_Status = new Thread(Network::Status);
+        Thread DNS_NET = new Thread(Network::GETIPs);
+        DNS_NET.start();
         API_NET.start();
         Network_Check.start();
         Network_GET.start();
